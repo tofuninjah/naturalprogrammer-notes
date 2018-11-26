@@ -16,9 +16,9 @@ will use Smtp? We cand address this issue using DI, or Dependency Injection.*
 * Implementation of MockMailSender
 
         import org.apache.commons.logging.Log;
-	    import org.apache.commons.logging.LogFactory;
-	    public class MockMailSender implements MailSender {
-		    private static Log log = LogFactory.getLog(MockMailSender.class);
+	import org.apache.commons.logging.LogFactory;
+	public class MockMailSender implements MailSender {
+		private static Log log = LogFactory.getLog(MockMailSender.class);
 
     		@Override
     		public void send(String to, String subject, String body) {
@@ -26,7 +26,7 @@ will use Smtp? We cand address this issue using DI, or Dependency Injection.*
     			Log.info("with Subject " + subject);
     			Log.info("and body " + body);
     		}
-	    }
+	}
 
 * Implementation of StpMailSender
 
@@ -47,18 +47,18 @@ will use Smtp? We cand address this issue using DI, or Dependency Injection.*
 * MailController
  
         import com.naturalprogrammer.spring5tutorial.mailMailSender;
-	    import com.naturalprogrammer.spring5tutorial.MockMailSender;
-	    @RestController
-	    public class MailController {
-		    // Creating an instance variable
-		    private MailSender mailSender = new MockMailsender();
+	import com.naturalprogrammer.spring5tutorial.MockMailSender;
+	@RestController
+	public class MailController {
+		// Creating an instance variable
+		private MailSender mailSender = new MockMailsender();
 		
-		    @RequestMapping("/mail")
-		    public String mail() {
-			    mailSender.send("mail@example.com", "A test mail", "Body of the test mail");
-			    return "Mail sent!";
-		    }
-	    }
+		@RequestMapping("/mail")
+		public String mail() {
+			mailSender.send("mail@example.com", "A test mail", "Body of the test mail");
+			return "Mail sent!";
+		}
+	}
 
 ##### Solving using DI.
 *Added @Component on the MockMailSender Implementation.  Then @Autowired the mailSender. The @Component tells Spring to create an instance of the MockMailSender (these are also called Beans) and store it in the Application Context.  Since there is also a @RequestController, 
@@ -67,19 +67,18 @@ an instance of MailController will also be created by Spring and will see that t
 * MockMailSender	
 
         import org.apache.commons.logging.Log;
-	    import org.apache.commons.logging.LogFactory;
-	    @Component
-	    public class MockMailSender implements MailSender {
+	import org.apache.commons.logging.LogFactory;
+	@Component
+	public class MockMailSender implements MailSender {
 
-		    private static Log log = LogFactory.getLog(MockMailSender.class);
-
-		    @Override
-		    public void send(String to, String subject, String body) {
-			    Log.info("Sending MOCK mail to " + to);
-			    Log.info("with Subject " + subject);
-			    Log.info("and body " + body);
-		    }
-	    }
+		private static Log log = LogFactory.getLog(MockMailSender.class);
+		@Override
+		public void send(String to, String subject, String body) {
+			Log.info("Sending MOCK mail to " + to);
+			Log.info("with Subject " + subject);
+			Log.info("and body " + body);
+		}
+	}
 
 * MailController
 
