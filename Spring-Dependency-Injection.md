@@ -104,11 +104,11 @@ an instance of MailController will also be created by Spring and will see that t
 Example on a constructor:
 
     	@Autowired // Optional in this case, mailSender will be auto-injected
-    		public void setMailSender(MailSender mailSender) {
+    	public void setMailSender(MailSender mailSender) {
     		this.mailSender = mailSender;
     	}
 
-###### Solving the Multiple bean probelm | What if there are TWO beans of type MailSender?
+##### Solving the Multiple bean probelm | What if there are TWO beans of type MailSender?
 *In our example we have TWO MailSenders.  One is MockMailSender, and the other is SmtpMailSender. So when Spring tries to inject `(MailSender mailSender)` it will find two in the Application Context*
 
 * By default each bean will have a name applied automatically, which will be the name of the class in camel case, ex: SmtpMailSender will be named smtpMailSender (small first letter, camelCased).
@@ -125,7 +125,7 @@ To remedy:
 	  this.mailSender = smtpMailSender;
 	}
 	
-**To add custom name, just use @Component("smtp").  This Bean will now how a name of 'smtp'**
+*To add custom name, just use @Component("smtp").  This Bean will now how a name of 'smtp'*
 
 	public MailController(MailSender smtp) {
 		this.mailSender = smtp;
