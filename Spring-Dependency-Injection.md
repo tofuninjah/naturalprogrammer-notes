@@ -137,20 +137,19 @@ MockMailSender class below @Component notation will tell Spring to preference th
 Example:
 
     	import org.apache.commons.logging.Log;
-	    import org.apache.commons.logging.LogFactory;
-	    @Component
-	    @Primary
-	    public class MockMailSender implements MailSender {
+	import org.apache.commons.logging.LogFactory;
+	@Component
+	@Primary
+	public class MockMailSender implements MailSender {
+		private static Log log = LogFactory.getLog(MockMailSender.class);
 
-		    private static Log log = LogFactory.getLog(MockMailSender.class);
-
-		    @Override
-		    public void send(String to, String subject, String body) {
-			    Log.info("Sending MOCK mail to " + to);
-			    Log.info("with Subject " + subject);
-			    Log.info("and body " + body);
-		    }
-	    }
+		@Override
+		public void send(String to, String subject, String body) {
+			Log.info("Sending MOCK mail to " + to);
+			Log.info("with Subject " + subject);
+			Log.info("and body " + body);
+		}
+	}
 
 *As well as a name, each bean will also have a 'Qualifier' associated with it automatically*
 
