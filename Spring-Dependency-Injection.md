@@ -16,49 +16,49 @@ will use Smtp? We cand address this issue using DI, or Dependency Injection.*
 * Implementation of MockMailSender
 
         import org.apache.commons.logging.Log;
-    	import org.apache.commons.logging.LogFactory;
-    	public class MockMailSender implements MailSender {
-    		private static Log log = LogFactory.getLog(MockMailSender.class);
-    
+        import org.apache.commons.logging.LogFactory;
+        public class MockMailSender implements MailSender {
+        	private static Log log = LogFactory.getLog(MockMailSender.class);
+        
         		@Override
         		public void send(String to, String subject, String body) {
         			Log.info("Sending MOCK mail to " + to);
         			Log.info("with Subject " + subject);
         			Log.info("and body " + body);
         		}
-    	}
+        }
 
 * Implementation of StpMailSender
 
 	    import org.apache.commons.logging.Log;
 	    import org.apache.commons.logging.LogFactory;
 	    public class SmtpMailSender implements MailSender {
-
-		    private static Log log = LogFactory.getLog(SmtpMailSender.class);
-
-		    @Override
-		    public void send(String to, String subject, String body) {
-			    Log.info("Sending Smtp mail to " + to);
-			    Log.info("with Subject " + subject);
-			    Log.info("and body " + body);
-		    }
+    
+	        private static Log log = LogFactory.getLog(SmtpMailSender.class);
+    
+	        @Override
+	        public void send(String to, String subject, String body) {
+	    	    Log.info("Sending Smtp mail to " + to);
+	    	    Log.info("with Subject " + subject);
+	    	    Log.info("and body " + body);
+	        }
 	    }
 
 * MailController
- 
+
         import com.naturalprogrammer.spring5tutorial.mailMailSender;
-    	import com.naturalprogrammer.spring5tutorial.MockMailSender;
-    	@RestController
-    	public class MailController {
-    		// Creating an instance variable
-    		private MailSender mailSender = new MockMailsender();
-    		
-    		@RequestMapping("/mail")
-    		public String mail() {
-    			mailSender.send("mail@example.com", "A test mail", "Body of the test mail");
-    			return "Mail sent!";
-    		}
-    	}
+        import com.naturalprogrammer.spring5tutorial.MockMailSender;
+        @RestController
+        public class MailController {
+        	// Creating an instance variable
+        	private MailSender mailSender = new MockMailsender();
+        	
+        	@RequestMapping("/mail")
+        	public String mail() {
+        		mailSender.send("mail@example.com", "A test mail", "Body of the test mail");
+        		return "Mail sent!";
+        	}
+        }
 
 ##### Solving using DI.
 *Added @Component on the MockMailSender Implementation.  Then @Autowired the mailSender. The @Component tells Spring to create an instance of the MockMailSender (these are also called Beans) and store it in the Application Context.  Since there is also a @RequestController, 
@@ -86,10 +86,10 @@ an instance of MailController will also be created by Spring and will see that t
 	import com.naturalprogrammer.spring5tutorial.MockMailSender;
 	@RestController
 	public class MailController {
-		@Autowired
-		private MailSender mailSender;
-		// Removed -> private MailSender mailSender = new MockMailsender();
-		
+	​	@Autowired
+	​	private MailSender mailSender;
+	​	// Removed -> private MailSender mailSender = new MockMailsender();
+	​	
 		@RequestMapping("/mail")
 		public String mail() {
 			mailSender.send("mail@example.com", "A test mail", "Body of the test mail");
@@ -119,11 +119,11 @@ To remedy:
 	}
 	
 	-= OR =-
-
+	
 	public MailController(MailSender mockMailSender) {
 	  this.mailSender = smtpMailSender;
 	}
-	
+
 *To add custom name, just use @Component("smtp").  This Bean will now how a name of 'smtp'*
 
 	public MailController(MailSender smtp) {
@@ -141,7 +141,7 @@ Example:
 	@Primary
 	public class MockMailSender implements MailSender {
 		private static Log log = LogFactory.getLog(MockMailSender.class);
-
+	
 		@Override
 		public void send(String to, String subject, String body) {
 			Log.info("Sending MOCK mail to " + to);

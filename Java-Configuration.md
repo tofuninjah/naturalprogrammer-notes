@@ -36,7 +36,7 @@
             }
         }
 
-###### Another way is to use XML Configurations to create the Beans.
+##### Another way is to use XML Configurations to create the Beans.
 
 ### Using Application Properties (application.properties)
 
@@ -46,17 +46,17 @@
 
 * ExampleController
 *When instanciated, Spring will inject app.name to String appName variable*
-        @RestController
-        public class HelloController {
-            
-            @Value("${app.name}");
-            private String appName;
-            
-            @RequestMapping("/hello")
-            public String hello() {
-                return "Hello, world" + appName; // Should return Hello, world Dev Environment
-            }
-        }
+  ​      @RestController
+  ​      public class HelloController {
+  ​          
+  ​          @Value("${app.name}");
+  ​          private String appName;
+  ​          
+  ​          @RequestMapping("/hello")
+  ​          public String hello() {
+  ​              return "Hello, world" + appName; // Should return Hello, world Dev Environment
+  ​          }
+  ​      }
 
 ### Spring profiles
 *Say for instance you are developing an application for a Book Shop as well as a Grocery Shop in 3 environments: Development, Test, and Prod.  You can plan to have 5 profiles: Book, Grocery, Dev, Test, Prod*
@@ -66,9 +66,10 @@
     app.name = Dev Environment
     spring.profiles.active: book, dev
     
+
 *Suppose we want to to use the smtp in prod and mock in development.*    
 
-###### We can use @Profile to tell Spring only to use a Bean in the 'Dev' environment
+##### We can use @Profile to tell Spring only to use a Bean in the 'Dev' environment
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html
 https://www.baeldung.com/spring-profiles
 
@@ -97,7 +98,39 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-dev
 
     spring.mail.host: smtp.gmail.com
 
+##### application.properties
 
+    spring.mail.host: smtp.gmail.com  
+
+##### Controller
+
+```java
+@RestController
+public class HelloController {
+    public String hello() {
+        return "Hello, world";
+    }
+}
+```
+
+##### mail.config
+
+```java
+@Configuration
+public class MailConfig {
+    @Bean
+    @ConditionalOnProperty(name="spring.mail.host", havingValue="fooSomethingImpractical", matchIfMissing=true)
+    public MailSender mockMailSender() {
+        return new MockMailSender();
+    }
+    
+    @Bean
+    @ConditionalOnProperty("spring.mail.host")
+    public MailSender smtpMailSender() {
+        return new SmtpMailSender();
+    }
+} 
+```
 
 
 
