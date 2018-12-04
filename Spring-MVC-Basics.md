@@ -295,11 +295,11 @@ Annotate the Controller class with @Validated, _then_ Bind the results with Bind
 ​	@PostMapping String doSignup(@Validated UserCommandVO user, 
 ​	BindingResult result) {
 ​		
-		// If there are errors
-		if(result.hasErrors()){
-	    	return "signup";    
-		}
-		
+​		// If there are errors
+​		if(result.hasErrors()){
+​	    	return "signup";    
+​		}
+​		
 	    log.info("Email: " + user.getEmail() + ";  Name: " + user.getName() + "; Password: " + user.getPassword());
 	    
 	    	return "redirect:/";
@@ -325,20 +325,20 @@ Annotate the Controller class with @Validated, _then_ Bind the results with Bind
             <form:errors path="name" cssClass="error" />
     	</div>
     </form:form>
-    
+
 ##### Custom Error Messages
 
+1. Hard code
 
+	@NotBlank(message="Please provide your email address")
+2. Properties files
 
+	ValidationMessages_en.properties
+    blankEmail: Please provide your email address
+    emailSizeError: Email size should be between {min} and {max} chars
+    @NotBlank(message="{blankEmail}")
+    @Size(min=4, max=250, message="{emailSizeError})
+
+   
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   
